@@ -1,0 +1,14 @@
+title: nozch
+description: "personal site / works and notes"
+theme: jekyll-theme-minimal
+
+# Markdown/サイト生成の基本設定
+markdown: kramdown
+highlighter: rouge
+
+# ビルドから除外したいファイルやディレクトリ
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
