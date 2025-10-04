@@ -1,6 +1,6 @@
 ---
 layout: post
-title: ""
+title: "first post"
 date: 2025-10-02
 ---
 
