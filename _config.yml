@@ -12,3 +12,43 @@ exclude:
   - Gemfile.lock
   - node_modules
   - vendor
+
+collections:
+  books:
+    output: true
+    permalink: /books/:year/:month/:day/:slug/
+  movies:
+    output: true
+    permalink: /movies/:year/:month/:day/:slug/
+  diary:
+    output: true
+    permalink: /diary/:year/:month/:day/:slug/
+ 
+  works:
+    output: true
+    permalink: /works/:slug/
+  others:
+    output: true
+    permalink: /others/:slug/
+
+defaults:
+  - scope:
+      { path: "", type: books }
+    values:
+      { layout: collection_item }
+  - scope:
+      { path: "", type: movies }
+    values:
+      { layout: collection_item }
+  - scope:
+      { path: "", type: diary }
+    values:
+      { layout: collection_item }
+  - scope:
+      { path: "", type: works }
+    values:
+      { layout: collection_item }
+  - scope:
+      { path: "", type: others }
+    values:
+      { layout: collection_item }

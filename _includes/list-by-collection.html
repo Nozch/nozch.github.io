@@ -1,0 +1,34 @@
+{%- comment -%}
+  引数:
+    include.collection  … "posts" / "books" / "movies" / "diary" / "works" / "others"
+{%- endcomment -%}
+{%- if include.collection == "posts" -%}
+  {%- assign items = site.posts -%}
+{%- else -%}
+  {%- assign items = site[include.collection] -%}
+{%- endif -%}
+
+{%- assign items = items | sort: "date" | reverse -%}
+{%- assign now = site.time | date: "%s" | plus: 0 -%}
+
+<p>{{ include.collection }}: {{ items | size }} 件</p>
+<ul>
+  {%- for item in items -%}
+    {%- comment -%} 日付なしは表示、日付ありは “いま以下” だけ表示 {%- endcomment -%}
+    {%- if item.date -%}
+      {%- assign ts = item.date | date: "%s" | plus: 0 -%}
+      {%- if ts <= now -%}
+        <li>
+          <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+          <span style="font-size:.9em;color:#666;">{{ item.date | date: "%Y-%m-%d" }}</span>
+          {%- if item.summary %}<div class="summary" style="font-size:.9em;color:#666;">{{ item.summary }}</div>{% endif -%}
+        </li>
+      {%- endif -%}
+    {%- else -%}
+      <li>
+        <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+        {%- if item.summary %}<div class="summary" style="font-size:.9em;color:#666;">{{ item.summary }}</div>{% endif -%}
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+</ul>

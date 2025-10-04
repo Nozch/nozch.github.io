@@ -1,0 +1,35 @@
+- title: Blog   # postsコレクション
+  url: /blog/
+  count_from: posts
+  index_path: blog.html         # blogは単一ファイル運用ならここ。dir化したら blog/index.md に変更
+  enabled: true
+
+- title: Books
+  url: /books/
+  count_from: books
+  index_path: books/index.md
+  enabled: true
+
+- title: Movies
+  url: /movies/
+  count_from: movies
+  index_path: movies/index.md
+  enabled: true
+
+- title: Diary
+  url: /diary/
+  count_from: diary
+  index_path: diary/index.md
+  enabled: true
+
+- title: Works
+  url: /works/
+  count_from: works
+  index_path: works/index.md
+  enabled: true
+
+- title: Others
+  url: /others/
+  count_from: others
+  index_path: others/index.md
+  enabled: false   # 準備中なら false に
