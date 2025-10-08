@@ -1,8 +1,8 @@
-- title: Blog   # postsコレクション
+- title: Blog # postsコレクション
   url: /blog/
   count_from: posts
-  index_path: blog.html         # blogは単一ファイル運用ならここ。dir化したら blog/index.md に変更
-  enabled: true
+  index_path: blog.html # blogは単一ファイル運用ならここ。dir化したら blog/index.md に変更
+  enabled: false
 
 - title: Books
   url: /books/

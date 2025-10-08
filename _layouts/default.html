@@ -18,9 +18,8 @@
 </head>
 <body>
   <header class="site-header">
-	{% raw %}
 	{% assign items = site.data.nav %}
-	{% assing items = items | where_exp: 'i', 'i.enabled != 'false' %}
+	{% assign items = items | where_exp: 'i', 'i.enabled != false' %}
 	{% if jekyll.enviroment == "production" %}
 		{% assign items = items | where_exp: 'i', 'i.local_only != true' %}
 	{% endif %}
