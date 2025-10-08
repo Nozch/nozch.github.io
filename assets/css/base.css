@@ -1,0 +1,133 @@
+/* 変数化しておくとページごとに上書きしやすい */
+:root {
+  --lh: 1.65;
+}
+
+body {
+  line-height: var(--lh);
+  max-width: 780px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Hiragino Sans",
+    "Noto Sans JP",
+    sans-serif;
+}
+nav a {
+  margin-right: 0.8rem;
+}
+.meta {
+  color: #666;
+  font-size: 0.9em;
+  margin: 0.25rem 0 1rem;
+}
+.tags a {
+  text-decoration: none;
+  border: 1px solid #ddd;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.4rem;
+  margin-right: 0.3rem;
+  font-size: 0.85em;
+  color: #444;
+}
+footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+  color: #666;
+  font-size: 0.9em;
+}
+/* 1) ヘッダーの土台：論理プロパティ＋iOSノッチ対応 */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: Canvas; /* システム色: ライト/ダーク自動適応 */
+  border-block-end: 1px solid color-mix(in oklch, Canvas, CanvasText 12%);
+  padding-block: max(0.5rem, env(safe-area-inset-top)); /* ノッチ分だけ足す */
+}
+
+/* 2) ナビの間合い：clampで“過剰に詰まらない”可変ギャップ */
+.site-header nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 3vw, 1.25rem);
+  inline-size: min(90vw, 72rem);
+  margin-inline: auto;
+}
+
+/* 3) 下線はtext-decorationを捨て、背景グラデで“インク”を引く */
+.site-header :where(a) {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  padding-block: 0.5rem; /* 触り心地＝ヒットエリアだけ増やす */
+  background: linear-gradient(currentColor 0 0) bottom / 0 2px no-repeat;
+  transition:
+    background-size 0.25s ease,
+    color 0.2s;
+}
+.site-header :where(a:hover, a:focus-visible) {
+  background-size: 100% 2px;
+}
+
+/* 4) キーボード操作にだけ高品位フォーカスリング（hoverと分離） */
+@supports selector(:focus-visible) {
+  .site-header :where(a:focus-visible) {
+    outline: 2px solid color-mix(in oklch, currentColor, Canvas 20%);
+    outline-offset: 0.25rem;
+    border-radius: 0.25rem;
+  }
+}
+
+/* 5) “現在地”は aria-current で太め&オフセット下線（JS不要） */
+.site-header :where(a[aria-current="page"]) {
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+  text-decoration-thickness: 0.12em;
+}
+
+/* 6) タッチ端末は当たり判定をさらに拡張（::afterのニッチ使い） */
+@media (pointer: coarse) {
+  .site-header :where(a) {
+    padding-block: 0.75rem;
+  }
+  .site-header :where(a)::after {
+    content: "";
+    position: absolute;
+    inset: -0.25rem; /* 目立たず広げる */
+  }
+}
+
+/* 7) 動きが苦手な人にはアニメなしで即フル下線 */
+@media (prefers-reduced-motion: reduce) {
+  .site-header :where(a) {
+    transition: none;
+  }
+  .site-header :where(a:hover, a:focus-visible) {
+    background-size: 100% 2px;
+  }
+}
+
+/* 8) “誰かが今触ってる”雰囲気を親要素で演出（:has の控えめ活用） */
+@supports selector(nav:has(a:hover)) {
+  .site-header nav:has(a:hover) {
+    background: linear-gradient(
+      to right,
+      transparent,
+      color-mix(in oklch, CanvasText 8%, Canvas),
+      transparent
+    );
+    border-radius: 0.5rem;
+  }
+}
+
+/* 9) ダークテーマ時は境界線だけ濃度調整（全体テーマは触らない） */
+@media (prefers-color-scheme: dark) {
+  .site-header {
+    border-block-end-color: color-mix(in oklch, Canvas, CanvasText 24%);
+  }
+}

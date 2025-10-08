@@ -1,7 +1,10 @@
 ---
 layout: default
 title: HOME
+add_css:
+  - /assets/css/top.css
 ---
+
 # ようこそ
 
 <ul>

@@ -8,27 +8,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% if page.summary %}<meta name="description" content="{{ page.summary | strip_html | strip_newlines }}">{% endif %}
   <link rel="alternate" type="application/atom+xml" href="{{ '/feed.xml' | relative_url }}">
-  <style>
-    :root { line-height: 1.65; }
-    body { max-width: 780px; margin: 2rem auto; padding: 0 1rem; font-family: ui-sans-serif, system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif; }
-    nav a { margin-right: .8rem; }
-    .meta { color:#666; font-size:.9em; margin:.25rem 0 1rem; }
-    .tags a { text-decoration:none; border:1px solid #ddd; padding:.1rem .4rem; border-radius:.4rem; margin-right:.3rem; font-size:.85em; color:#444; }
-    footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #eee; color:#666; font-size:.9em; }
-  </style>
+      <link rel="stylesheet" href="{{ '/assets/css/base.css' | relative_url }}">
+  	{% if page.add_css %}
+  		{% for css in page.add_css %}
+    			<link rel="stylesheet" href="{{ css | relative_url }}">
+  	{% endfor %}
+  {% endif %}
   <link rel="canonical" href="{{ page.url | absolute_url }}">
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="{{ '/'       | relative_url }}">Home</a>
-      <a href="{{ '/blog/'  | relative_url }}">Blog</a>
-      <a href="{{ '/books/' | relative_url }}">Books</a>
-      <a href="{{ '/movies/'| relative_url }}">Movies</a>
-      <a href="{{ '/diary/' | relative_url }}">Diary</a>
-      <a href="{{ '/works/' | relative_url }}">Works</a>
-      <a href="{{ '/others/'| relative_url }}">Others</a>
-    </nav>
+  <header class="site-header">
+	{% assign items = site.data.nav %}
+	{% if jekyll.enviroment == "production" %}
+		{% assign items = items | where_exp: 'i', 'i.local_only != true' %}
+	{% endif %}
+	<nav aria-label="Primary">
+	{% for i in items %}
+		{% assign is_external = i.external or i.url contains '://' %}
+		{% assign link = is_external ? i.url : i.url | relative_url %}
+		{% assign cur = page.url | relative_url %}
+		<a href="{{ link }}"
+			{% unless is_external %}{% if cur == i.url | relative_url %}aria-current="page"
+			{% endif %}{% endunless %}>
+			{{ i.title }}
+		</a>
+	{% endfor %}
+    	</nav>
   </header>
 
   <main>

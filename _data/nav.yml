@@ -32,4 +32,5 @@
   url: /others/
   count_from: others
   index_path: others/index.md
-  enabled: false   # 準備中なら false に
+  enabled: false # 準備中なら false に
+
