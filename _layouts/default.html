@@ -19,21 +19,33 @@
 <body>
   <header class="site-header">
 	{% assign items = site.data.nav %}
+	{% assign items = items | where_exp: 'i', 'i.enabled != false' %}
 	{% if jekyll.enviroment == "production" %}
 		{% assign items = items | where_exp: 'i', 'i.local_only != true' %}
 	{% endif %}
 	<nav aria-label="Primary">
-	{% for i in items %}
-		{% assign is_external = i.external or i.url contains '://' %}
-		{% assign link = is_external ? i.url : i.url | relative_url %}
-		{% assign cur = page.url | relative_url %}
+	{%- for i in items -%}
+		{%- assign href = i.url -%}
+		{% if href %}
+			{% assign cur = page.url | relative_url %}
+			{% assign href_rel = href | relative_url %}
+
+			{% assign is_external = false %}
+			{% if i.external or href contains '://' %}
+				{% assign is_external = true %}
+			{% endif %}
+
+			{% assign link = href_rel %}
+			{% if is_external %}{% assign link = href %}{% endif %}
 		<a href="{{ link }}"
-			{% unless is_external %}{% if cur == i.url | relative_url %}aria-current="page"
-			{% endif %}{% endunless %}>
+			{%- unless is_external -%}{% if cur == href_rel %}aria-current="page"
+			{% endif %}{%- endunless -%}
+			{%- if is_external -%} target="_blank" rel="noopener"{%- endif -%}>
 			{{ i.title }}
 		</a>
-	{% endfor %}
-    	</nav>
+		{% endif %}
+	{%- endfor -%}
+	</nav>
   </header>
 
   <main>
