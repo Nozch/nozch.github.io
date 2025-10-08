@@ -21,9 +21,9 @@ collections:
     output: true
     permalink: /movies/:year/:month/:day/:slug/
   diary:
-    output: true
+    output: false
     permalink: /diary/:year/:month/:day/:slug/
- 
+
   works:
     output: true
     permalink: /works/:slug/
@@ -32,23 +32,14 @@ collections:
     permalink: /others/:slug/
 
 defaults:
-  - scope:
-      { path: "", type: books }
-    values:
-      { layout: collection_item }
-  - scope:
-      { path: "", type: movies }
-    values:
-      { layout: collection_item }
-  - scope:
-      { path: "", type: diary }
-    values:
-      { layout: collection_item }
-  - scope:
-      { path: "", type: works }
-    values:
-      { layout: collection_item }
-  - scope:
-      { path: "", type: others }
-    values:
-      { layout: collection_item }
+  - scope: { path: "", type: books }
+    values: { layout: collection_item }
+  - scope: { path: "", type: movies }
+    values: { layout: collection_item }
+  - scope: { path: "", type: diary }
+    values: { layout: collection_item }
+  - scope: { path: "", type: works }
+    values: { layout: collection_item }
+  - scope: { path: "", type: others }
+    values: { layout: collection_item }
+
