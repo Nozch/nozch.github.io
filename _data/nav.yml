@@ -21,6 +21,7 @@
   count_from: diary
   index_path: diary/index.md
   enabled: true
+  local_only: true
 
 - title: Works
   url: /works/
